@@ -42,7 +42,7 @@ $url = get_page_uri();
     else
 	$avdelningsnamn = $url;
 	
-$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+$decoded = scoutnet_get_memberlist();
 $members = $decoded['data'];
 
 $medlemmar = array();
@@ -54,18 +54,18 @@ foreach ($members as $key => $value) {
 
     foreach ($value as $key2 => $medlem) {
 	    if ($key2 == "unit") {
-        if ($avdelningsnamn == ScouternaPlugins_ScoutnetFixThatString($medlem['value'])) {
+        if ($avdelningsnamn == scouternaplugins_fixthatstring($medlem['value'])) {
 		if (!empty($value['unit_role']['value'])) {
 			switch($r_settings) {
 				case 2:
-					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br><i>".$value['unit_role']['value']."</i><br>tel: ".substr($value['contact_mobile_phone']['value'],0,5)."XXXXXX<br>E-post: <a href=\"".$value['email']['value']."\">".$value['email']['value']."</a>";
+					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br /><i>".$value['unit_role']['value']."</i><br />tel: ".substr($value['contact_mobile_phone']['value'],0,5)."XXXXXX<br />E-post: <a href=\"".$value['email']['value']."\">".$value['email']['value']."</a>";
 					break;
 				case 1:
-					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br><i>".$value['unit_role']['value']."</i><br>tel: ".substr($value['contact_mobile_phone']['value'],0,5)."XXXXXX";
+					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br /><i>".$value['unit_role']['value']."</i><br />tel: ".substr($value['contact_mobile_phone']['value'],0,5)."XXXXXX";
 					break;
 				case 0:
 				default:
-					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br><i>".$value['unit_role']['value']."</i>";
+					$ledare[] = $value['first_name']['value']." ".$value['last_name']['value']."<br /><i>".$value['unit_role']['value']."</i>";
 					break;
 			}
 		}
@@ -75,13 +75,11 @@ foreach ($members as $key => $value) {
     }
 }
 
-echo "Ledare p&aring; avdelningen:<br>";
-if (empty($ledare))
-	echo "Hej!<br>Denna widgets &auml;r just nu p&aring; en sida som inte heter samma som en av avdelningarna i Scoutnet. Denna sidas namn &auml;r <i>$avdelningsnamn<i>.<br>Denna widget vet inte vilka sidor som &auml;r en avdelning eller inte, s&aring; man beh&ouml;ver ha en till plugin som kan best&auml;mma vilka sidor denna widget ska visas p&aring;.";
-else
-	foreach ($ledare as $item)
-		echo "\n<br>$item";
-echo "<br><br><i>Scoutnet listar bara de ledare som &auml;r har denna avdelning som huvudavdelning. Exempelivs s&aring; har assistenter utmanarlaget som huvudavdelning, s&aring; de listas inte.</i>";
+echo "Ledare p&aring; avdelningen:";
+foreach ($ledare as $item) {
+	echo "\n<br />$item";
+}
+echo "<br /><br /><i>Scoutnet listar bara de ledare som &auml;r har denna avdelning som huvudavdelning. Exempelivs s&aring; har assistenter utmanarlaget som huvudavdelning, s&aring; de listas inte.</i>";
 
         echo $after_widget;
     }
@@ -126,9 +124,9 @@ echo "<br><br><i>Scoutnet listar bara de ledare som &auml;r har denna avdelning 
 
 <input id="<?php echo esc_attr( $this->get_field_id( 'r_settings0' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'r_settings' ) ); ?>" type="radio" value="0" <?php checked( '0', $r_settings ); ?> />
 <label for="<?php echo esc_attr( $this->get_field_id( 'r_settings0' ) ); ?>"><?php _e( 'Simpel (standard)', 'scouternaplugins' ); ?></label>
-<br><input id="<?php echo esc_attr( $this->get_field_id( 'r_settings1' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'r_settings' ) ); ?>" type="radio" value="1" <?php checked( '1', $r_settings ); ?> />
+<br /><input id="<?php echo esc_attr( $this->get_field_id( 'r_settings1' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'r_settings' ) ); ?>" type="radio" value="1" <?php checked( '1', $r_settings ); ?> />
 <label for="<?php echo esc_attr( $this->get_field_id( 'r_settings1' ) ); ?>"><?php _e( 'Ut&ouml;kad (telnr)', 'scouternaplugins' ); ?></label>
-<br><input id="<?php echo esc_attr( $this->get_field_id( 'r_settings3' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'r_settings' ) ); ?>" type="radio" value="2" <?php checked( '2', $r_settings ); ?> />
+<br /><input id="<?php echo esc_attr( $this->get_field_id( 'r_settings3' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'r_settings' ) ); ?>" type="radio" value="2" <?php checked( '2', $r_settings ); ?> />
 <label for="<?php echo esc_attr( $this->get_field_id( 'r_settings3' ) ); ?>"><?php _e( 'Ut&ouml;kad (telnr+mejl)', 'scouternaplugins' ); ?></label>
     <?php 
     }
