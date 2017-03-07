@@ -95,7 +95,7 @@ function ScouternaPlugins_Scoutnet_karid_render() {
 	?>
 	<input type='number' size='3' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_karid]' value='<?=$options['ScouternaPlugins_Scoutnet_karid']?>'>
 <?php
-	if (!empty(scoutnet_get_groupname()))
+	if (!empty(ScouternaPlugins_ScoutnetGetGroupname()))
 		echo "<br />Du har anslutit Wordpress till ".ScouternaPlugins_ScoutnetGetGroupname();
 }
 function ScouternaPlugins_Scoutnet_apinyckel_group_render() { 

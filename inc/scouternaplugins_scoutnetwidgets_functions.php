@@ -104,7 +104,7 @@ function ScouternaPlugins_ScoutnetCheckRegistermemeber() {
  */
 function ScouternaPlugins_ScoutetCacheIt($name, $data, $group = "ScouternaPlugins", $expire = 1800) {
 	$result = wp_cache_get($name,$group);
-	if ( false === $result ) {
+	if (false === $result) {
 		$result = @file_get_contents($data);
 		wp_cache_set($name, $result, $group, $expire);
 	}
@@ -261,7 +261,7 @@ function ScouternaPlugins_ScoutnetGetAllAssleders() {
 function ScouternaPlugins_ScoutnetColorThatBradgard($functiontocheck, $mode="") {
 	$color = "#FF0000";
 	if (empty($mode))
-		if(!empty($thingtocheck))
+		if(!empty($functiontocheck))
 			$color = "#00FF00";
 	if ($mode == "bool")
 		if (ScouternaPlugins_ScoutnetCheckRegistermemeber() == true)
