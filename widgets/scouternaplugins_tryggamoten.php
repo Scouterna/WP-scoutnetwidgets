@@ -66,11 +66,12 @@ class ScouternaPlugins_Scoutnet_TryggaMoten_Widget extends WP_Widget {
 		$listid = esc_attr($instance['listid']);
 ?>
 	<label for="<?=$this->get_field_id('listid')?>"><?php _e('Nummer p&aring; mejllistan'); ?></label>
-	<input class="widefat" id="<?=$this->get_field_id('listid')?>" name="<?=$this->get_field_name('listid')?>" type="text" value="<?=$listid?>" /><?=scoutnet_colorbradgard(scoutnet_get_customlist($listid)['data'])?>
+	<input class="widefat" id="<?=$this->get_field_id('listid')?>" name="<?=$this->get_field_name('listid')?>" type="text" value="<?=$listid?>" /><?=ScouternaPlugins_ScoutnetColorThatBradgard(ScouternaPlugins_ScoutnetGetCustomlist($listid)['data'])?>
 	<br><i>Du ska fylla i allt efter "?list_id=" i rutan ovan. Du hittar detta nummer p&aring; samma sida som du hittar API-nycklarna i Scoutnet.</i>
 	<br>Syns det ett r&ouml;tt # efter f&auml;ltet efter du sparat s&aring; har scoutnet retunerat en tom lista.
 
 <?php
+
 	}
 }
 
