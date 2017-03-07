@@ -35,8 +35,8 @@ public function widget( $args, $instance ) {
 
 	switch($r_settings) {
 	case 3:
-		echo "<p style='font-size:2em;text-align:center;'>". scoutnet_get_memberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(scoutnet_get_allleaders()) ." ledare,</p>";
-		$decoded = scoutnet_get_group();
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p>";
+		$decoded = ScouternaPlugins_ScoutnetGetGroup();
 		$members = $decoded['Group']['stats']['active']['breakdown'];
 		$konnamn = array("annat","killar","tjejer");
 		$kontotantal = array(0,0,0);
@@ -75,14 +75,14 @@ public function widget( $args, $instance ) {
 		echo "</table>";
 		break;
 	case 2:
-		echo "<p style='font-size:2em;text-align:center;'>". scoutnet_get_memberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(scoutnet_get_allleaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(scoutnet_get_staff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och ".count(scoutnet_get_troopmembers("Stödjande Medlemmar", true))." st&ouml;djande.";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(scoutnet_get_staff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och ".count(ScouternaPlugins_ScoutnetGetUnitmembers("Stödjande Medlemmar", true))." st&ouml;djande.";
 		break;
 	case 1:
-		echo "<p style='font-size:2em;text-align:center;'>". scoutnet_get_memberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(scoutnet_get_allleaders()) ." ledare.</p>";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare.</p>";
 		break;
 	case 0:
 	default:
-		echo "<p style='font-size:2em;text-align:center;'>". scoutnet_get_memberscount() ." medlemmar</p>";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p>";
 		break;
 	}
 	echo $after_widget;

@@ -35,12 +35,12 @@ public function widget($args,$instance) {
 	else
 		$avdelningsnamn = $url;
 	
-	$decoded = scoutnet_get_memberlist();
+	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
 	$members = $decoded['data'];
 	$avdelning = array();
 
 	foreach ($members as $key => $medlem) {
-		if ($avdelningsnamn == scouternaplugins_fixthatstring($medlem['unit']['value'])) {
+		if ($avdelningsnamn == ScouternaPlugins_ScoutnetFixThatString($medlem['unit']['value'])) {
 			if (empty($medlem['unit_role']['value'])) {
 				if ($show_patrols == "yes") {
 					$avdelning[] = ["name" => $medlem['first_name']['value']." ".mb_substr($medlem['last_name']['value'],0,1),"patrol"=>$medlem['patrol']['value']];
