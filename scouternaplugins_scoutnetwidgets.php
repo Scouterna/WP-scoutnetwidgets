@@ -25,7 +25,7 @@ add_action( 'admin_init', 'ScouternaPlugins_Scoutnet_settings_init' );
 
 // Adds a settingpage to admin menu
 function ScouternaPlugins_Scoutnet_add_admin_menu() { 
-	add_menu_page( 'Scoutnet koppling', 'Scoutnet koppling', 'manage_options', 'scouternaplugins_scoutnetwidgets', 'ScouternaPlugins_Scoutnet_options_page', plugins_url("scouternaplugins_scoutnetwidgets/img/logga.png"), 99 );
+	add_menu_page( 'Scoutnet koppling', 'Scoutnet koppling', 'manage_options', 'scouternaplugins_scoutnetwidgets', 'ScouternaPlugins_Scoutnet_options_page', plugin_dir_url(__FILE__)."img/logga.png", 99 );
 }
 
 
