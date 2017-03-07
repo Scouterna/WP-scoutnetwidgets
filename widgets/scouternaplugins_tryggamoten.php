@@ -25,16 +25,15 @@ class ScouternaPlugins_Scoutnet_TryggaMoten_Widget extends WP_Widget {
 		$listid = esc_attr($instance['listid']);
 		
 		echo $before_widget;
-		if(!empty(scoutnet_get_customlist($listid)['data'])) {
-			$gatttm = count(scoutnet_get_customlist($listid)['data']);
-			$avantal = count(scoutnet_get_staff())+count(scoutnet_get_allleaders())+count(scoutnet_get_allass());
+		if(!empty(ScouternaPlugins_ScoutnetGetCustomlist($listid)['data'])) {
+			$gatttm = count(ScouternaPlugins_ScoutnetGetCustomlist($listid)['data']);
+			$avantal = count(ScouternaPlugins_ScoutnetGetStaff())+count(ScouternaPlugins_ScoutnetGetLeaders())+count(ScouternaPlugins_ScoutnetGetAllAssleders());
 			$procent = round($gatttm/$avantal*100);
 			echo "<div style=\"text-align:center;\"><span style=\"font-size: 2em;\">$gatttm av $avantal </span><span style=\"font-size: 1.25em;\">($procent%)</span><br><span style=\"font-size: 2em;\"><br>ledare, assistenter och k&aring;rfunktion&auml;rer</span><br>har g&aring;tt trygga m&ouml;ten</span></div>";
 		}
 		else
 			echo "Hej!<br>H&auml;r skulle en text legat p&aring; antalet som g&aring;tt Trygga M&ouml;ten.<br>Det saknas dock en inst&auml;llning f&ouml;r denna widget p&aring; widget sidan.<br>Har du r&auml;tt beh&ouml;righet s&aring; kan du &auml;ndra detta <a href=\"/wp-admin/widgets.php\">h&auml;r</a>.";
 		echo $after_widget;
-	
 	}
 
 

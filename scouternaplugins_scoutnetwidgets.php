@@ -3,7 +3,7 @@
 Plugin Name: Scoutnet koppling
 Plugin URI: http://eservice.scout.se/
 Description: Plugin f&ouml;r att ansluta Wordpress till Scoutnets API och presentera data via widgets.
-Version: 0.5
+Version: 0.9
 Author: Joel "PazZze" Martinsson
 Author URI: https://code.pazzze.se
 Text Domain: scouternaplugins
@@ -17,13 +17,13 @@ foreach (glob(SCOUTERNAPLUGINS__PLUGIN_DIR . "widgets/*.php") as $filename) {
 }
 
 
-//temp variabel för att ändra server =)
+// Var for Scoutnet server address
 static $scoutnetapiurl = "www.scoutnet.se";
 
 add_action( 'admin_menu', 'ScouternaPlugins_Scoutnet_add_admin_menu' );
 add_action( 'admin_init', 'ScouternaPlugins_Scoutnet_settings_init' );
 
-
+// Adds a settingpage to admin menu
 function ScouternaPlugins_Scoutnet_add_admin_menu() { 
 	add_menu_page( 'Scoutnet koppling', 'Scoutnet koppling', 'manage_options', 'scouternaplugins_scoutnetwidgets', 'ScouternaPlugins_Scoutnet_options_page', plugins_url("scouternaplugins_scoutnetwidgets/img/logga.png"), 99 );
 }
@@ -84,48 +84,54 @@ function ScouternaPlugins_Scoutnet_settings_init() {
 }
 $options = get_option('ScouternaPlugins_Scoutnet_settings');
 
+/**
+ * ScouternaPlugins_Scoutnet_karid_render()
+ *
+ * Renders a form for the admin setting page
+ *
+ */
 function ScouternaPlugins_Scoutnet_karid_render() { 
 	global $options;
 	?>
 	<input type='number' size='3' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_karid]' value='<?=$options['ScouternaPlugins_Scoutnet_karid']?>'>
 <?php
 	if (!empty(scoutnet_get_groupname()))
-		echo "<br />Du har anslutit Wordpress till ".scoutnet_get_groupname();
+		echo "<br />Du har anslutit Wordpress till ".ScouternaPlugins_ScoutnetGetGroupname();
 }
 function ScouternaPlugins_Scoutnet_apinyckel_group_render() { 
 	global $options;
 	?>
 	<input type='text' size='47' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_apinyckel_group]' value='<?=$options['ScouternaPlugins_Scoutnet_apinyckel_group']?>'>
 <?php
-	scoutnet_colorbradgard(scoutnet_get_group());
+	ScouternaPlugins_ScoutnetColorThatBradgard(ScouternaPlugins_ScoutnetGetGroup());
 }
 function ScouternaPlugins_Scoutnet_apinyckel_waitinglist_render() { 
 	global $options;
 	?>
 	<input type='text' size='47' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_apinyckel_waitinglist]' value='<?=$options['ScouternaPlugins_Scoutnet_apinyckel_waitinglist']?>'>
 <?php
-	scoutnet_colorbradgard(scoutnet_check_registermemeber(),"bool");
+	ScouternaPlugins_ScoutnetColorThatBradgard(ScouternaPlugins_ScoutnetCheckRegistermemeber(),"bool");
 }
 function ScouternaPlugins_Scoutnet_apinyckel_members_render() { 
 	global $options;
 	?>
 	<input type='text' size='47' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_apinyckel_members]' value='<?=$options['ScouternaPlugins_Scoutnet_apinyckel_members']?>'>
 <?php
-	scoutnet_colorbradgard(scoutnet_get_memberlist());
+	ScouternaPlugins_ScoutnetColorThatBradgard(ScouternaPlugins_ScoutnetGetMemberlist());
 }
 function ScouternaPlugins_Scoutnet_apinyckel_mail_render() { 
 	global $options;
 	?>
 	<input type='text' size='47' name='ScouternaPlugins_Scoutnet_settings[ScouternaPlugins_Scoutnet_apinyckel_mail]' value='<?=$options['ScouternaPlugins_Scoutnet_apinyckel_mail']?>'>
 <?php
-	scoutnet_colorbradgard(scoutnet_get_customlist());
+	ScouternaPlugins_ScoutnetColorThatBradgard(ScouternaPlugins_ScoutnetGetCustomlist());
 }
 function ScouternaPlugins_Scoutnet_settings_section_callback() { 
 	echo __( 'H&auml;r kan du koppla Wordpress till Scoutnet.<br/>Du beh&ouml;ver ha r&auml;tt beh&ouml;righet i Scoutnet f&ouml;r att se sidan d&auml;r uppgifterna st&aring;r. Alternativt f&aring; uppgifterna fr&aring;n en som har.<br/><br/>Du hittar uppgifterna i Scoutnet under "Din k&aring;r" > Webbkoppling.<br/>&Auml;r inte API-systemet p&aring;slaget m&aring;ste du g&ouml;ra detta f&ouml;rst genom knappen h&ouml;gst upp till h&ouml;ger.<br/>K&aring;r ID hittar du genom att expandera ett av f&auml;lten.<br/><br/>Du beh&ouml;ver skriva in flertalet API-nycklar i rutorna nedan. Se till att du skriver r&auml;tt nyckel i r&auml;tt ruta! Se &auml;ven till att det inte &auml;r n&aring;gra blanktecken!<br /><br />Br&auml;dg&aring;rdstecknet blir gr&ouml;nt n&auml;r anslutningen fungerar, uppdateras efter du sparat.', 'scouternaplugins' );
 }
 
 
-function ScouternaPlugins_Scoutnet_options_page(  ) { 
+function ScouternaPlugins_Scoutnet_options_page() { 
 
 	?>
 	<form action='options.php' method='post'>
