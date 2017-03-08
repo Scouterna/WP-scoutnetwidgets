@@ -75,7 +75,7 @@ public function widget( $args, $instance ) {
 		echo "</table>";
 		break;
 	case 2:
-		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(scoutnet_get_staff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och ".count(ScouternaPlugins_ScoutnetGetUnitmembers("Stödjande Medlemmar", true))." st&ouml;djande.";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(ScouternaPlugins_ScoutnetGetStaff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och ".count(ScouternaPlugins_ScoutnetGetUnitmembers("Stödjande Medlemmar", true))." st&ouml;djande.";
 		break;
 	case 1:
 		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare.</p>";
