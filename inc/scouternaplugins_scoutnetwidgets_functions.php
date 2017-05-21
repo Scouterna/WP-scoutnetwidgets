@@ -55,7 +55,7 @@ function ScouternaPlugins_ScoutnetGetMemberlist() {
  * Retrieves a custom created list
  *
  * @param string $listid id of the custom list.
- * @return array of all members
+ * @return array of all members in the list.
  */
 function ScouternaPlugins_ScoutnetGetCustomlist($listid = false) {
 	// /api/group/customlists 
@@ -98,8 +98,8 @@ function ScouternaPlugins_ScoutnetCheckRegistermemeber() {
  *
  * @param string $name name of cache
  * @param string $data url of data to cache
- * @param string $group groups all cache
- * @param string $expire time in secounds until expire.
+ * @param string $group groups all cache, default "ScouternaPlugins".
+ * @param string $expire time in secounds until expire, default "1800s/30min".
  * @return array of data
  */
 function ScouternaPlugins_ScoutetCacheIt($name, $data, $group = "ScouternaPlugins", $expire = 1800) {
@@ -256,7 +256,7 @@ function ScouternaPlugins_ScoutnetGetAllAssleders() {
  * Echos a string with a colored # depending on if the $functiontocheck is not empty or if it's true
  *
  * @param function $functiontocheck 
- * @param boolean $mode String to fix
+ * @param boolean $mode String to color
  */
 function ScouternaPlugins_ScoutnetColorThatBradgard($functiontocheck, $mode="") {
 	$color = "#FF0000";
@@ -267,5 +267,54 @@ function ScouternaPlugins_ScoutnetColorThatBradgard($functiontocheck, $mode="") 
 		if (ScouternaPlugins_ScoutnetCheckRegistermemeber() == true)
 			$color = "#00FF00";
 	echo "<span style=\"color: $color\">#</span>";
+}
+
+/**
+ * ScouternaPlugins_ScoutnetGetBirthday()
+ *
+ * Sorts out all members who have a birthday today
+ *
+ * @param number $option the option for the list, default 0.
+ * @return array with members
+ */
+function ScouternaPlugins_ScoutnetGetBirthday($option=0) {
+	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+	$members = $decoded['data'];
+	$returnarray = array();
+//hade någe knas med min server.. vägrade visa rätt datum, men borde inte behövas
+	date_default_timezone_set('Europe/Stockholm');
+	$today = date("m-d");
+
+
+	foreach ($members as $key => $medlem) {
+		$memberbirthdayarray = explode('-', $medlem['date_of_birth']['value']);
+		$memberbirthday = $memberbirthdayarray[1]."-".$memberbirthdayarray[2];
+		if ($memberbirthday == $today) {
+			switch($option){
+			case 2:
+				$returnarray[] = $medlem['first_name']['value']." ".mb_substr($medlem['last_name']['value'],0,1);
+				break;
+			case 4:
+				$returnarray[] = $medlem['first_name']['value']." ".$medlem['unit']['value'];
+				break;
+			case 5:
+				$returnarray[] = $medlem['first_name']['value']." ".mb_substr($medlem['last_name']['value'],0,1)." ".$medlem['unit']['value'];
+				break;
+			default:
+			case 0:
+			case 1:
+				$returnarray[] = $medlem['first_name']['value'];
+				break;
+			}
+		}
+/*
+ * 5 = namn + e + avdelning
+ * 4 = namn + avdelning
+ * 2 = namn + e
+ * 1 = namn
+ * 0 = antal
+ */
+	}
+	return $returnarray;
 }
 ?>
