@@ -77,7 +77,7 @@ foreach ($members as $key => $value) {
 
 echo "Ledare p&aring; avdelningen:<br>";
 if (empty($ledare))
-	echo "Hej!<br>Denna widgets &auml;r just nu p&aring; en sida som inte heter samma som en av avdelningarna i Scoutnet. Denna sidas namn &auml;r <i>$avdelningsnamn<i>.<br>Denna widget vet inte vilka sidor som &auml;r en avdelning eller inte, s&aring; man beh&ouml;ver ha en till plugin som kan best&auml;mma vilka sidor denna widget ska visas p&aring;.";
+	echo "Hej!<br>Denna widgets &auml;r just nu p&aring; en sida som inte heter samma som en av avdelningarna i Scoutnet. Denna sidas namn &auml;r <i>$avdelningsnamn</i>.<br>Denna widget vet inte vilka sidor som &auml;r en avdelning eller inte, s&aring; man beh&ouml;ver ha en till plugin som kan best&auml;mma vilka sidor denna widget ska visas p&aring;.";
 else
 	foreach ($ledare as $item)
 		echo "\n<br>$item";

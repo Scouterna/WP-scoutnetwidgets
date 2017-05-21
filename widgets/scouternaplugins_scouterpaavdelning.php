@@ -51,7 +51,7 @@ public function widget($args,$instance) {
 		}
 	}
 	if (empty($avdelning))
-		echo "Hej!<br>Denna widgets &auml;r just nu p&aring; en sida som inte heter samma som en av avdelningarna i Scoutnet. Denna sidas namn &auml;r <i>$avdelningsnamn<i>.<br>Denna widget vet inte vilka sidor som &auml;r en avdelning eller inte, s&aring; man beh&ouml;ver ha en till plugin som kan best&auml;mma vilka sidor denna widget ska visas p&aring;.";
+		echo "Hej!<br>Denna widgets &auml;r just nu p&aring; en sida som inte heter samma som en av avdelningarna i Scoutnet. Denna sidas namn &auml;r <i>$avdelningsnamn</i>.<br>Denna widget vet inte vilka sidor som &auml;r en avdelning eller inte, s&aring; man beh&ouml;ver ha en till plugin som kan best&auml;mma vilka sidor denna widget ska visas p&aring;.";
 	else {
 		if (is_user_logged_in() && $show_names== "yes") {
 			echo "Dessa ".count($avdelning)." scouter finns p&aring; avdelningen:<br>";
