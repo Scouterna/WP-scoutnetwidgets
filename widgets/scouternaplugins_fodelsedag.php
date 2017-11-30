@@ -4,7 +4,7 @@
  */
 
  
-class ScouternaPlugins_Scoutnet_Fodelsedag_Widget extends WP_Widget {
+class ScouternaPlugins_ScoutnetWidgets_Fodelsedag_Widget extends WP_Widget {
  
 public function __construct() {
 	parent::__construct('scouternaplugins_fodelsedag_widget',__( 'Visar medlemmar som fyller &aring;r', 'scouternaplugins' ),
@@ -23,9 +23,9 @@ public function __construct() {
  */
 
 public function widget( $args, $instance ) {
-	if (!empty(ScouternaPlugins_ScoutnetGetBirthday(0))) {
+	if (!empty(ScouternaPlugins_ScoutnetWidgets_GetBirthday(0))) {
 
-	wp_enqueue_style( 'ScouternaPlugins_Scoutnet_Fodelsedag_Widget-style', plugins_url('css/birthday.css', __FILE__) );
+	wp_enqueue_style( 'ScouternaPlugins_ScoutnetWidgets_Fodelsedag_Widget-style', plugins_url('css/birthday.css', __FILE__) );
 	$r_settings = esc_attr($instance['r_settings']);
 	if (empty($r_settings))
 		$r_settings=0;
@@ -34,10 +34,10 @@ public function widget( $args, $instance ) {
 	echo $before_widget;
 
 	$party=true;
-	if (empty(ScouternaPlugins_ScoutnetGetBirthday($r_settings)))
+	if (empty(ScouternaPlugins_ScoutnetWidgets_GetBirthday($r_settings)))
 		$party=false;
 	else
-		$birthdaylist = ScouternaPlugins_ScoutnetGetBirthday($r_settings);
+		$birthdaylist = ScouternaPlugins_ScoutnetWidgets_GetBirthday($r_settings);
 
 	if ($party) {
 		if ($r_settings == 0)
@@ -117,5 +117,5 @@ public function form($instance) {
  
 /* Register the widget */
 add_action( 'widgets_init', function(){
- register_widget( 'ScouternaPlugins_Scoutnet_Fodelsedag_Widget' );
+ register_widget( 'ScouternaPlugins_ScoutnetWidgets_Fodelsedag_Widget' );
 });

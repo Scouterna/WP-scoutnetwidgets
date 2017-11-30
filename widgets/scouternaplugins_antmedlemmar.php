@@ -4,7 +4,7 @@
  */
 
  
-class ScouternaPlugins_Scoutnet_AntMedlemmar_Widget extends WP_Widget {
+class ScouternaPlugins_ScoutnetWidgets_AntMedlemmar_Widget extends WP_Widget {
  
 public function __construct() {
 	parent::__construct('scouternaplugins_antmedlemmar_widget',__( 'Visar antalet medlemmar', 'scouternaplugins' ),
@@ -23,7 +23,7 @@ public function __construct() {
  */
 
 public function widget( $args, $instance ) {
-	wp_enqueue_style( 'ScouternaPlugins_Scoutnet_AntMedlemmar_Widget-style', plugins_url('css/bars.css', __FILE__) );
+	wp_enqueue_style( 'ScouternaPlugins_ScoutnetWidgets_AntMedlemmar_Widget-style', plugins_url('css/bars.css', __FILE__) );
 	$r_settings = esc_attr($instance['r_settings']);
 	$title = esc_attr($instance['title']);
 	extract( $args );
@@ -35,8 +35,8 @@ public function widget( $args, $instance ) {
 
 	switch($r_settings) {
 	case 3:
-		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p>";
-		$decoded = ScouternaPlugins_ScoutnetGetGroup();
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetWidgets_GetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetWidgets_GetLeaders()) ." ledare,</p>";
+		$decoded = ScouternaPlugins_ScoutnetWidgets_GetGroup();
 		$members = $decoded['Group']['stats']['active']['breakdown'];
 		$konnamn = array("annat","killar","tjejer");
 		$kontotantal = array(0,0,0);
@@ -59,9 +59,8 @@ public function widget( $args, $instance ) {
 				break;
 			$under18 += array_sum($konsarray);
 		}
-		echo "$under18 &auml;r 18 eller yngre<br >";
+		echo "<p style=\"text-align:center\">$under18 &auml;r 18 eller yngre</p>";
 		echo "<div class=\"container\" style=\"width: ".$under18."px\">\n";
-//		echo '<table style="border-collapse: collapse;margin:0;padding:0;">';
 		echo "<table style=\"line-height:14px;\">";
 		foreach ($medlemmar as $alder => $konsarray) {
 			if ($alder > 18)
@@ -70,19 +69,26 @@ public function widget( $args, $instance ) {
 			$bredd *= 3;
 			$fodd = date('Y')-$alder;
 			echo "<tr><td>$fodd</td><td style=\"padding: 0px 8px 0px 5px;\">".array_sum($konsarray)."</td><td><p class=\"alder$alder\" style=\"width: ".$bredd."px; float:left; margin:0;\">&nbsp;</p></td></tr>";
-//		<div class=\"graf\" style=\"width: ".$under18."px;\"><p style=\"width: 34px; float:left;\">$fodd</p><p class=\"alder$alder\" style=\"width: ".$bredd."px; float:left;\">&nbsp;</p></div>\n";
 		}
 		echo "</table>";
 		break;
 	case 2:
-		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(ScouternaPlugins_ScoutnetGetStaff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och ".count(ScouternaPlugins_ScoutnetGetUnitmembers("StÃ¶djande Medlemmar", true))." st&ouml;djande.";
+/*
+ *  Stödjande medlemmar fungerar inte.. Finns inget bra sätt att komma fram till detta enkelt *
+		$tropstat = ScouternaPlugins_ScoutnetWidgets_GetGroup();
+		$youngmemb = $tropstat["Group"]["stats"]["below_26"];
+		$support=ScouternaPlugins_ScoutnetWidgets_GetMemberscount()-count(ScouternaPlugins_ScoutnetWidgets_GetLeaders())-count(ScouternaPlugins_ScoutnetWidgets_GetStaff())-$youngmemb;
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetWidgets_GetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetWidgets_GetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(ScouternaPlugins_ScoutnetWidgets_GetStaff())." funktion&auml;rer</p><p style='font-size:1.25em;text-align:center;'>och $support st&ouml;djande.";
+		break;
+ */
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetWidgets_GetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetWidgets_GetLeaders()) ." ledare,</p><p style='font-size:1.55em;text-align:center;'>".count(ScouternaPlugins_ScoutnetWidgets_GetStaff())." funktion&auml;rer.</p>";
 		break;
 	case 1:
-		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetGetLeaders()) ." ledare.</p>";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetWidgets_GetMemberscount() ." medlemmar</p><p style='font-size:1.75em;text-align:center;'>varav ". count(ScouternaPlugins_ScoutnetWidgets_GetLeaders()) ." ledare.</p>";
 		break;
 	case 0:
 	default:
-		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetGetMemberscount() ." medlemmar</p>";
+		echo "<p style='font-size:2em;text-align:center;'>". ScouternaPlugins_ScoutnetWidgets_GetMemberscount() ." medlemmar</p>";
 		break;
 	}
 	echo $after_widget;
@@ -135,5 +141,5 @@ public function form($instance) {
  
 /* Register the widget */
 add_action( 'widgets_init', function(){
- register_widget( 'ScouternaPlugins_Scoutnet_AntMedlemmar_Widget' );
+ register_widget( 'ScouternaPlugins_ScoutnetWidgets_AntMedlemmar_Widget' );
 });

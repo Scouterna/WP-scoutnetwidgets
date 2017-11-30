@@ -4,7 +4,7 @@
  */
 
  
-class ScouternaPlugins_Scoutnet_ScouterpaAvdelning_Widget extends WP_Widget {
+class ScouternaPlugins_ScoutnetWidgets_ScouterpaAvdelning_Widget extends WP_Widget {
  
 public function __construct() {
 	parent::__construct('scouternaplugins_scouterpaavdelning_widget',__( 'Visar scouter p&aring; en avdelning', 'scouternaplugins' ),
@@ -35,12 +35,12 @@ public function widget($args,$instance) {
 	else
 		$avdelningsnamn = $url;
 	
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$avdelning = array();
 
 	foreach ($members as $key => $medlem) {
-		if ($avdelningsnamn == ScouternaPlugins_ScoutnetFixThatString($medlem['unit']['value'])) {
+		if ($avdelningsnamn == ScouternaPlugins_ScoutnetWidgets_FixThatString($medlem['unit']['value'])) {
 			if (empty($medlem['unit_role']['value'])) {
 				if ($show_patrols == "yes") {
 					$avdelning[] = ["name" => $medlem['first_name']['value']." ".mb_substr($medlem['last_name']['value'],0,1),"patrol"=>$medlem['patrol']['value']];
@@ -146,5 +146,5 @@ public function form( $instance ) {
 
 /* Register the widget */
 add_action( 'widgets_init', function(){
- register_widget( 'ScouternaPlugins_Scoutnet_ScouterpaAvdelning_Widget' );
+ register_widget( 'ScouternaPlugins_ScoutnetWidgets_ScouterpaAvdelning_Widget' );
 });

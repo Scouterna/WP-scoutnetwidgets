@@ -6,66 +6,60 @@
  * @link eservice.scout.se
  */
 
-//static $scoutnetapiurl = "s1.test.custard.no";
-
-$options = get_option( 'ScouternaPlugins_Scoutnet_settings' );
-$karid = $options['ScouternaPlugins_Scoutnet_karid'];
+$options = get_option( 'ScouternaPlugins_ScoutnetWidgets_settings' );
+$karid = $options['ScouternaPlugins_ScoutnetWidgets_karid'];
 
 /**
- * ScouternaPlugins_ScoutnetGetGroup()
+ * ScouternaPlugins_ScoutnetWidgets_GetGroup()
  *
  * Retrieves a list of gropinformation
  *
  * @return array of goupinformation
  */
-function ScouternaPlugins_ScoutnetGetGroup() {
+function ScouternaPlugins_ScoutnetWidgets_GetGroup() {
 	// /api/organisation/group
 	global $scoutnetapiurl;
         global $options;
         global $karid;
-	$apinyckel = $options['ScouternaPlugins_Scoutnet_apinyckel_group'];
+	$apinyckel = $options['ScouternaPlugins_ScoutnetWidgets_apinyckel_group'];
 	$result = ScouternaPlugins_ScoutetCacheIt("group","https://$karid:$apinyckel@$scoutnetapiurl/api/organisation/group");
-//	$result = @file_get_contents("https://$karid:$apinyckel@$scoutnetapiurl/api/organisation/group");
 	if($result !== FALSE)
 		return json_decode($result, true);
 }
 /**
- * ScouternaPlugins_ScoutnetGetMemberlist()
+ * ScouternaPlugins_ScoutnetWidgets_GetMemberlist()
  *
  * Retrieves a list all the members
  *
  * @return array of all members
  */
-function ScouternaPlugins_ScoutnetGetMemberlist() {
+function ScouternaPlugins_ScoutnetWidgets_GetMemberlist() {
 	// /api/group/memberlist
 	global $scoutnetapiurl;
 	global $options;
 	global $karid;
-	$apinyckel = $options['ScouternaPlugins_Scoutnet_apinyckel_members'];
+	$apinyckel = $options['ScouternaPlugins_ScoutnetWidgets_apinyckel_members'];
 
 	$result = ScouternaPlugins_ScoutetCacheIt("memberlist","https://$karid:$apinyckel@$scoutnetapiurl/api/group/memberlist");
-//	$result = @file_get_contents("https://$karid:$apinyckel@$scoutnetapiurl/api/group/memberlist");
-	
 	if($result !== FALSE)
 		return json_decode($result, true);
 }
 /**
- * ScouternaPlugins_ScoutnetGetCustomlist()
+ * ScouternaPlugins_ScoutnetWidgets_GetCustomlist()
  *
  * Retrieves a custom created list
  *
  * @param string $listid id of the custom list.
  * @return array of all members in the list.
  */
-function ScouternaPlugins_ScoutnetGetCustomlist($listid = false) {
+function ScouternaPlugins_ScoutnetWidgets_GetCustomlist($listid = false) {
 	// /api/group/customlists 
 	global $scoutnetapiurl;
         global $options;
         global $karid;
-	$apinyckel = $options['ScouternaPlugins_Scoutnet_apinyckel_mail'];
+	$apinyckel = $options['ScouternaPlugins_ScoutnetWidgets_apinyckel_mail'];
 	if ($listid == false) {
 		$result = ScouternaPlugins_ScoutetCacheIt("customlists","https://$karid:$apinyckel@$scoutnetapiurl/api/group/customlists");
-//		$result = @file_get_contents("https://$karid:$apinyckel@$scoutnetapiurl/api/group/customlists");
 	}
 	else {
 		$result = @file_get_contents("https://$karid:$apinyckel@$scoutnetapiurl/api/group/customlists?list_id=$listid");
@@ -74,17 +68,17 @@ function ScouternaPlugins_ScoutnetGetCustomlist($listid = false) {
 		return json_decode($result, true);
 }
 /**
- * ScouternaPlugins_ScoutnetCheckRegistermemeber()
+ * ScouternaPlugins_ScoutnetWidgets_CheckRegistermemeber()
  *
  * A function to check if the API-key for register members is working
  *
  * @return boolean true if the site returns a 400 https status code
  */
-function ScouternaPlugins_ScoutnetCheckRegistermemeber() {
+function ScouternaPlugins_ScoutnetWidgets_CheckRegistermemeber() {
 	global $scoutnetapiurl;
         global $options;
         global $karid;
-	$apinyckel = $options['ScouternaPlugins_Scoutnet_apinyckel_waitinglist'];
+	$apinyckel = $options['ScouternaPlugins_ScoutnetWidgets_apinyckel_waitinglist'];
 	$result = @file_get_contents("https://$karid:$apinyckel@$scoutnetapiurl/api/organisation/register/member");
 	preg_match( "#HTTP/[0-9\.]+\s+([0-9]+)#",$http_response_header[0], $out );
 	if($out[1] == 400)
@@ -112,48 +106,48 @@ function ScouternaPlugins_ScoutetCacheIt($name, $data, $group = "ScouternaPlugin
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetGroupname()
+ * ScouternaPlugins_ScoutnetWidgets_GetGroupname()
  *
  * Retrieves the name of the group.
  *
  * @return string name of the group
  */
-function ScouternaPlugins_ScoutnetGetGroupname() {
-	$decoded = ScouternaPlugins_ScoutnetGetGroup();
+function ScouternaPlugins_ScoutnetWidgets_GetGroupname() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetGroup();
 	return $decoded['Group']['name'];
 }
 /**
- * ScouternaPlugins_ScoutnetGetMemberscount()
+ * ScouternaPlugins_ScoutnetWidgets_GetMemberscount()
  *
  * Retrieves the total amount of members.
  *
- * @return int all the members of the group
+ * @return int all the members of the troop
  */
-function ScouternaPlugins_ScoutnetGetMemberscount() {
-	$decoded = ScouternaPlugins_ScoutnetGetGroup();
+function ScouternaPlugins_ScoutnetWidgets_GetMemberscount() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetGroup();
 	return $decoded['Group']['membercount'];
 }
 /**
- * ScouternaPlugins_ScoutnetGetWaitingcount()
+ * ScouternaPlugins_ScoutnetWidgets_GetWaitingcount()
  *
  * Retrieves the total amount on the waiting list.
  *
  * @return int persons waiting to become a member
  */
-function ScouternaPlugins_ScoutnetGetWaitingcount() {
-	$decoded = ScouternaPlugins_ScoutnetGetGroup();
+function ScouternaPlugins_ScoutnetWidgets_GetWaitingcount() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetGroup();
 	return $decoded['Group']['waitingcount'];
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetLeaders()
+ * ScouternaPlugins_ScoutnetWidgets_GetLeaders()
  *
- * Retrieves members that have a unitrole matching 1-3
+ * Retrieves members that have a unit role matching 1-3
  *
  * @return array with membernumber
  */
-function ScouternaPlugins_ScoutnetGetLeaders() {
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+function ScouternaPlugins_ScoutnetWidgets_GetLeaders() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$returnarray = array();
 	foreach ($members as $key => $value) {
@@ -171,7 +165,7 @@ function ScouternaPlugins_ScoutnetGetLeaders() {
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetUnitmembers()
+ * ScouternaPlugins_ScoutnetWidgets_GetUnitmembers()
  *
  * Sorts out all members that got an unitrole matching 1-3
  *
@@ -179,16 +173,16 @@ function ScouternaPlugins_ScoutnetGetLeaders() {
  * @param boolean $exlude if true, counts members without group role
  * @return array with first name
  */
-function ScouternaPlugins_ScoutnetGetUnitmembers($searchedunit,$exlude=false) {
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+function ScouternaPlugins_ScoutnetWidgets_GetUnitmembers($searchedunit,$exlude=false) {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$returnarray = array();
 	foreach ($members as $key => $value) {
 		if ($exlude) {
-			if (ScouternaPlugins_ScoutnetFixThatString($value['unit']['value']) === ScouternaPlugins_ScoutnetFixThatString($searchedunit) && !isset ($value['group_role']))
+			if (ScouternaPlugins_ScoutnetWidgets_FixThatString($value['unit']['value']) === ScouternaPlugins_ScoutnetWidgets_FixThatString($searchedunit) && !isset ($value['group_role']))
 				$returnarray[] = $value['first_name']['value'];
 		} else {
-			if (ScouternaPlugins_ScoutnetFixThatString($value['unit']['value']) === ScouternaPlugins_ScoutnetFixThatString($searchedunit))
+			if (ScouternaPlugins_ScoutnetWidgets_FixThatString($value['unit']['value']) === ScouternaPlugins_ScoutnetWidgets_FixThatString($searchedunit))
 				$returnarray[] = $value['first_name']['value'];
 		}
 	}
@@ -196,14 +190,14 @@ function ScouternaPlugins_ScoutnetGetUnitmembers($searchedunit,$exlude=false) {
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetStaff()
+ * ScouternaPlugins_ScoutnetWidgets_GetStaff()
  *
  * Sorts out all members that go an unit role and no group role
  *
  * @return array with member number
  */
-function ScouternaPlugins_ScoutnetGetStaff() {
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+function ScouternaPlugins_ScoutnetWidgets_GetStaff() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$returnarray = array();
 	foreach ($members as $key => $value) {
@@ -214,26 +208,26 @@ function ScouternaPlugins_ScoutnetGetStaff() {
 }
 
 /**
- * ScouternaPlugins_ScoutnetFixThatString()
+ * ScouternaPlugins_ScoutnetWidgets_FixThatString()
  *
  * Cleans the string from specialchars and makes it lowercase
  *
  * @param string $thestring String to fix
  * @return string fixed string
  */
-function ScouternaPlugins_ScoutnetFixThatString($thestring) {
+function ScouternaPlugins_ScoutnetWidgets_FixThatString($thestring) {
 	return strtolower(preg_replace('~&([a-z]{1,2})(?:acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml|caron);~i', '$1', htmlentities($thestring, ENT_COMPAT, 'UTF-8')));
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetAllAssleders()
+ * ScouternaPlugins_ScoutnetWidgets_GetAllAssleders()
  *
  * Sorts out all members that got an unitrole matching 5
  *
  * @return array with member number
  */
-function ScouternaPlugins_ScoutnetGetAllAssleders() {
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+function ScouternaPlugins_ScoutnetWidgets_GetAllAssleders() {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$returnarray = array();
 	foreach ($members as $key => $value) {
@@ -251,41 +245,37 @@ function ScouternaPlugins_ScoutnetGetAllAssleders() {
 }
 
 /**
- * ScouternaPlugins_ScoutnetColorThatBradgard()
+ * ScouternaPlugins_ScoutnetWidgets_ColorThatBradgard()
  *
  * Echos a string with a colored # depending on if the $functiontocheck is not empty or if it's true
  *
  * @param function $functiontocheck 
  * @param boolean $mode String to color
  */
-function ScouternaPlugins_ScoutnetColorThatBradgard($functiontocheck, $mode="") {
+function ScouternaPlugins_ScoutnetWidgets_ColorThatBradgard($functiontocheck, $mode="") {
 	$color = "#FF0000";
 	if (empty($mode))
 		if(!empty($functiontocheck))
 			$color = "#00FF00";
 	if ($mode == "bool")
-		if (ScouternaPlugins_ScoutnetCheckRegistermemeber() == true)
+		if (ScouternaPlugins_ScoutnetWidgets_CheckRegistermemeber() == true)
 			$color = "#00FF00";
 	echo "<span style=\"color: $color\">#</span>";
 }
 
 /**
- * ScouternaPlugins_ScoutnetGetBirthday()
+ * ScouternaPlugins_ScoutnetWidgets_GetBirthday()
  *
  * Sorts out all members who have a birthday today
  *
  * @param number $option the option for the list, default 0.
  * @return array with members
  */
-function ScouternaPlugins_ScoutnetGetBirthday($option=0) {
-	$decoded = ScouternaPlugins_ScoutnetGetMemberlist();
+function ScouternaPlugins_ScoutnetWidgets_GetBirthday($option=0) {
+	$decoded = ScouternaPlugins_ScoutnetWidgets_GetMemberlist();
 	$members = $decoded['data'];
 	$returnarray = array();
-//hade någe knas med min server.. vägrade visa rätt datum, men borde inte behövas
-	date_default_timezone_set('Europe/Stockholm');
 	$today = date("m-d");
-
-
 	foreach ($members as $key => $medlem) {
 		$memberbirthdayarray = explode('-', $medlem['date_of_birth']['value']);
 		$memberbirthday = $memberbirthdayarray[1]."-".$memberbirthdayarray[2];
@@ -307,13 +297,6 @@ function ScouternaPlugins_ScoutnetGetBirthday($option=0) {
 				break;
 			}
 		}
-/*
- * 5 = namn + e + avdelning
- * 4 = namn + avdelning
- * 2 = namn + e
- * 1 = namn
- * 0 = antal
- */
 	}
 	return $returnarray;
 }
