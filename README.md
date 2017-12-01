@@ -106,3 +106,10 @@ Visar de som fyller år idag.
   - Förnamn
   - Förnamn samt första bokstaven i efternamnet.
 
+#### Trygga möten
+Visar procentsats av ledare/kårfunktionärer som gått trygga möten
+>Det krävs att man sparar de ledare som gått trygga möten i en epostlista i scoutnet.
+
+Spara de ledare som genomfört trygga möten i en epostlista i scoutnet, valfritt namn på listan.
+Gå sedan till webbkoppling och hitta epostlistan och kopiera alla tecken efter "?list_id=" och klistra in i rutan.
+Brädgårdstecknet kommer bli grönt efter man sparat om den hittar en lista.
